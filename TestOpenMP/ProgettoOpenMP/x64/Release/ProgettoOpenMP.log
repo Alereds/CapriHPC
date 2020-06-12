@@ -1,8 +1,0 @@
-﻿  openmp_master.cpp
-I:\SkyDrive\Documenti\Dottorato\Corsi\IE-24-2020\OpenMPCode\ProgettoOpenMP\ProgettoOpenMP\openmp_master.cpp(26,22): warning C4267: 'argomento': conversione da 'size_t' a 'int'. Possibile perdita di dati.
-  Generazione codice in corso...
-  2 of 7 functions (28.6%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
-  Generazione codice terminata
-  ProgettoOpenMP.vcxproj -> I:\SkyDrive\Documenti\Dottorato\Corsi\IE-24-2020\OpenMPCode\ProgettoOpenMP\x64\Release\ProgettoOpenMP.exe
