@@ -1,5 +1,0 @@
-Interessi maggiori da parte della comunità scientifica:
-* poter lanciare diverse istanze di Vostok contemporaneamente e che vadano in parallelo poiché per l'uso in reinforcement learning questo aspetto è fondamentale
-* grafica 3D da migliorare sensibilmente, riflessioni, non planarità degli oggetti, materiali, luci, ...
-* ray tracing real time assolutamente da implementare altrimenti praticamente inutile
-* loro sono interessati soprattutto alla parte di simulazione dei sensori caratterizzati, per il resto e per la parte di robotica usano già altri strumenti vedi ad esempio Nvidia Isaac SDK o Gazebo.
