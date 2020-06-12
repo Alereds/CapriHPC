@@ -1,0 +1,23 @@
+Bootstrap: library
+From: debian:10
+
+%post
+apt-get update
+apt-get install -y git
+mkdir $SINGULARITY_ROOTFS/CapriHPC
+cd $SINGULARITY_ROOTFS/CapriHPC
+git clone https://github.com/Alereds/CapriHPC.git
+spack load intel-parallel-studio@professional.2019.4
+icc -qopenmp TestOpenMP/ProgettoOpenMP/openmp_master.cpp -o openmp_master.o 
+
+%runscript 
+spack load intel-parallel-studio@professional.2019.4
+/CapriHPC/openmp_master.o
+
+%labels
+Author Alessandro Rossi
+Version 1.0
+
+%help
+This is a simple example of Singularity container. The container
+is based on Debian 10 and it contains a C++ program

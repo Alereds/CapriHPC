@@ -2,3 +2,5 @@
 !*.cpp
 !*.c
 !*.sln
+!*.def
+!*.slurm
