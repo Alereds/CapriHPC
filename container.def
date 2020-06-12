@@ -4,11 +4,11 @@ From: debian:10
 %post
 apt-get update
 apt-get install -y git
+apt-get install -y gcc
 mkdir $SINGULARITY_ROOTFS/CapriHPC
 cd $SINGULARITY_ROOTFS/CapriHPC
 git clone https://github.com/Alereds/CapriHPC.git
-spack load intel-parallel-studio@professional.2019.4
-icc -qopenmp TestOpenMP/ProgettoOpenMP/openmp_master.cpp -o openmp_master.o 
+gcc -fopenmp TestOpenMP/ProgettoOpenMP/openmp_master.cpp -o openmp_master.o 
 
 %runscript 
 spack load intel-parallel-studio@professional.2019.4
