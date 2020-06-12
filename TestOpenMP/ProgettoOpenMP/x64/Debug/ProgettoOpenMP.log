@@ -1,0 +1,3 @@
+﻿  openmp_master.cpp
+D:\My Scripts\Git\CapriHPC\TestOpenMP\ProgettoOpenMP\openmp_master.cpp(26,22): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  ProgettoOpenMP.vcxproj -> D:\My Scripts\Git\CapriHPC\TestOpenMP\x64\Debug\ProgettoOpenMP.exe
