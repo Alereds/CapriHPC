@@ -3,16 +3,17 @@ From: debian:10
 
 %post
 apt-get update
-apt-get install -y git
-apt-get install -y gcc
-mkdir $SINGULARITY_ROOTFS/CapriHPC
-cd $SINGULARITY_ROOTFS/CapriHPC
-git clone https://github.com/Alereds/CapriHPC.git
-gcc -fopenmp TestOpenMP/ProgettoOpenMP/openmp_master.cpp -o openmp_master.o 
+apt-get install -y gcc g++ libgomp1 git git-lfs
+git lfs install
+mkdir ${SINGULARITY_ROOTFS}/MyRoot
+cd ${SINGULARITY_ROOTFS}/MyRoot
+git lfs clone https://github.com/Alereds/CapriHPC.git
+cd CapriHPC
+g++ -fopenmp CAPRIComputeNormals.cpp -o CAPRIComputeNormals.o
 
-%runscript 
-spack load intel-parallel-studio@professional.2019.4
-/CapriHPC/openmp_master.o
+%runscript
+cd ${SINGULARITY_ROOTFS}/MyRoot/CapriHPC
+./CAPRIComputeNormals.o
 
 %labels
 Author Alessandro Rossi

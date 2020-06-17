@@ -8,9 +8,11 @@
 #SBATCH --partition allgroups
 #SBATCH --ntasks 1
 #SBATCH --cpus-per-task 8
-#SBATCH --mem 8G
-#SBATCH --time 00:01:00
+#SBATCH --mem 200M
+#SBATCH --time 00:02:00
+
+cd $SLURM_SUBMIT_DIR
 
 export OMP_NUM_THREADS=8
 
-srun singularity exec testImage.sif ./openmp_master.o
+srun singularity run --bind Output:/mnt container.sif
