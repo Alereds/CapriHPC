@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <errno.h>
 using namespace std;
 
 class vector3
@@ -316,7 +317,12 @@ void FasterSaveToPCD(string filename, vector<vector3>& points, vector<vector3>& 
 		}
 		fclose(outfile);
 	}
-	else cerr << "Unable to save file" << endl;
+	else
+	{
+		cerr << "Unable to save file" << endl;
+		perror("Error");
+	} 
+
 }
 
 int main()
