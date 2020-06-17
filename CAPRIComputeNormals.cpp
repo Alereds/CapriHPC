@@ -260,48 +260,12 @@ void ParallelComputeNormals(vector<vector3>& points, vector<vector3>& normals, i
 	}
 }
 
-void LoadFromPCD(string filename, vector<vector3>& outputVec, int& width, int& height)
-{
-	ifstream infile(filename);
-
-	string line;
-	for (int i = 0; i < 6; i++)
-		getline(infile, line);
-
-	//Width, height
-	getline(infile, line);
-	width = stoi(line.substr(6));
-	getline(infile, line);
-	height = stoi(line.substr(7));
-
-	getline(infile, line); //skip one line
-
-	//Points count
-	getline(infile, line);
-	int nPoints = stoi(line.substr(7));
-
-	outputVec = vector<vector3>(nPoints);
-	getline(infile, line); //skip one line
-
-	int i = 0;
-	while (getline(infile, line))
-	{
-		std::istringstream iss(line);
-		float a, b, c, d, e, f, g;
-		iss >> a >> b >> c;
-		outputVec[i].x = a;
-		outputVec[i].y = b;
-		outputVec[i].z = c;
-		i++;
-	}
-}
-
 void FasterLoadFromPCD(string filename, vector<vector3>& outputVec, int& width, int& height)
 {
 	FILE* infile = fopen(filename.c_str(), "r");
 
 	if (infile == NULL) {
-		cout << "Failed to open file!";
+		cerr << "Failed to load file!" << endl;
 		return;
 	}
 
@@ -336,27 +300,6 @@ void FasterLoadFromPCD(string filename, vector<vector3>& outputVec, int& width, 
 	fclose(infile);
 }
 
-void SaveToPCD(string filename, vector<vector3>& points, vector<vector3>& normals, int width, int height, int nPoints)
-{
-	ofstream outfile(filename);
-
-	string header = "# .PCD v0.7 - Point Cloud Data file format\nVERSION 0.7\nFIELDS x y z normal_x normal_y normal_z\nSIZE 4 4 4 4 4 4\nTYPE F F F F F F\nCOUNT 1 1 1 1 1 1\nWIDTH " + to_string(width) + "\nHEIGHT " + to_string(height) + "\nVIEWPOINT 0 0 0 1 0 0 0\nPOINTS " + to_string(nPoints) + "\nDATA ascii\n";
-
-	if (outfile.is_open())
-	{
-		outfile << header;
-
-		for (int i = 0; i < points.size(); i++)
-		{
-			outfile << points[i].x << " " << points[i].y << " " << points[i].z << " " << normals[i].x << " " << normals[i].y << " " << normals[i].z << endl;
-		}
-
-		outfile.close();
-	}
-	else cerr << "Unable to open file";
-
-}
-
 void FasterSaveToPCD(string filename, vector<vector3>& points, vector<vector3>& normals, int width, int height, int nPoints)
 {
 	FILE* outfile = fopen(filename.c_str(), "w+");
@@ -373,7 +316,7 @@ void FasterSaveToPCD(string filename, vector<vector3>& points, vector<vector3>& 
 		}
 		fclose(outfile);
 	}
-	else cerr << "Unable to open file";
+	else cerr << "Unable to save file" << endl;
 }
 
 int main()
@@ -400,5 +343,5 @@ int main()
 		<< chrono::duration_cast<chrono::milliseconds>(end - start).count()
 		<< " ms" << endl;
 
-	FasterSaveToPCD("GearWithNormals.pcd", points, normals, width, height, points.size());
+	FasterSaveToPCD("/mnt/GearWithNormals.pcd", points, normals, width, height, points.size());
 }
