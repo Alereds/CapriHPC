@@ -1,0 +1,29 @@
+Bootstrap: docker
+From: nvidia/cuda
+
+%post
+apt-get update
+apt-get install -y gcc g++ git git-lfs
+git lfs install
+export CUDA_HOME=/usr/local/cuda
+export CPATH=$CPATH:${CUDA_HOME}/include
+export LIBRARY_PATH=$LIBRARY_PATH:${CUDA_HOME}/lib64
+ln -s /usr/local/cuda/lib64/stubs/libcuda.so
+/usr/local/cuda/lib64/libcuda.so
+mkdir ${SINGULARITY_ROOTFS}/MyRoot
+cd ${SINGULARITY_ROOTFS}/MyRoot
+git lfs clone https://github.com/Alereds/CapriHPC.git
+cd CapriHPC
+g++ -fopenmp CUDAComputeNormals.cu -o CUDAComputeNormals.o
+
+%runscript
+cd ${SINGULARITY_ROOTFS}/MyRoot/CapriHPC
+./CUDAComputeNormals.o
+
+%labels
+Author Alessandro Rossi
+Version 1.0
+
+%help
+This is a simple example of Singularity container. The container
+is based on CUDA Toolkit and it contains a C++ program
