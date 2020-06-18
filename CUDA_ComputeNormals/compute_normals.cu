@@ -130,7 +130,7 @@ int main()
 {
 	float3* points = NULL;
 
-	string filename = "C:\\Users\\Alessandro\\Desktop\\CUDAComputeNormals\\Gear.pcd";
+	string filename = "/mnt/Input/Gear.pcd";
 
 #pragma region Load from file
 
@@ -204,7 +204,7 @@ int main()
 		<< chrono::duration_cast<chrono::milliseconds>(end - start).count()
 		<< " ms" << endl;
 
-	filename = "C:\\Users\\Alessandro\\Desktop\\CUDAComputeNormals\\GearWithNormals.pcd";
+	filename = "/mnt/Output/GearWithNormals.pcd"
 
 #pragma region Save to file
 
