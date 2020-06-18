@@ -1,9 +1,9 @@
 Bootstrap: docker
-From: nvidia/cuda
+From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
 
 %post
 apt-get update
-apt-get install -y gcc g++ git
+apt-get install -y gcc g++ git nvidia-cuda-toolkit
 export CUDA_HOME=/usr/local/cuda
 export CPATH=$CPATH:${CUDA_HOME}/include
 export LIBRARY_PATH=$LIBRARY_PATH:${CUDA_HOME}/lib64
