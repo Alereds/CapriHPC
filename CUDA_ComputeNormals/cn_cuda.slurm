@@ -14,4 +14,4 @@
 
 cd $SLURM_SUBMIT_DIR
 
-srun singularity run --bind Output:/mnt container.sif
+srun singularity run --bind ../CAPRI_Input:/mnt/Input,../CAPRI_Output:/mnt/Output cu_cuda_container.sif

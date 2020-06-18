@@ -3,22 +3,20 @@ From: nvidia/cuda
 
 %post
 apt-get update
-apt-get install -y gcc g++ git git-lfs
-git lfs install
+apt-get install -y gcc g++ git
 export CUDA_HOME=/usr/local/cuda
 export CPATH=$CPATH:${CUDA_HOME}/include
 export LIBRARY_PATH=$LIBRARY_PATH:${CUDA_HOME}/lib64
-ln -s /usr/local/cuda/lib64/stubs/libcuda.so
-/usr/local/cuda/lib64/libcuda.so
+ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/libcuda.so
 mkdir ${SINGULARITY_ROOTFS}/MyRoot
 cd ${SINGULARITY_ROOTFS}/MyRoot
-git lfs clone https://github.com/Alereds/CapriHPC.git
-cd CapriHPC
-g++ -fopenmp CUDAComputeNormals.cu -o CUDAComputeNormals.o
+git clone https://github.com/Alereds/CapriHPC.git
+cd CapriHPC/CUDA_ComputeNormals
+nvcc compute_normals.cu -o compute_normals.o
 
 %runscript
-cd ${SINGULARITY_ROOTFS}/MyRoot/CapriHPC
-./CUDAComputeNormals.o
+cd ${SINGULARITY_ROOTFS}/MyRoot/CapriHPC/CUDA_ComputeNormals
+./compute_normals.o
 
 %labels
 Author Alessandro Rossi
