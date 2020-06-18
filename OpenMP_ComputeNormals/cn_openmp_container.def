@@ -3,17 +3,16 @@ From: debian:10
 
 %post
 apt-get update
-apt-get install -y gcc g++ libgomp1 git git-lfs
-git lfs install
+apt-get install -y gcc g++ libgomp1 git
 mkdir ${SINGULARITY_ROOTFS}/MyRoot
 cd ${SINGULARITY_ROOTFS}/MyRoot
-git lfs clone https://github.com/Alereds/CapriHPC.git
-cd CapriHPC
-g++ -fopenmp CAPRIComputeNormals.cpp -o CAPRIComputeNormals.o
+git clone https://github.com/Alereds/CapriHPC.git
+cd CapriHPC/OpenMP_ComputeNormals
+g++ -fopenmp compute_normals.cpp -o compute_normals.o
 
 %runscript
-cd ${SINGULARITY_ROOTFS}/MyRoot/CapriHPC
-./CAPRIComputeNormals.o
+cd ${SINGULARITY_ROOTFS}/MyRoot/CapriHPC/OpenMP_ComputeNormals
+./compute_normals.o
 
 %labels
 Author Alessandro Rossi

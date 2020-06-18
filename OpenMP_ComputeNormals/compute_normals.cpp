@@ -329,7 +329,7 @@ int main()
 {
 	vector<vector3> points;
 	int width, height;
-	FasterLoadFromPCD("Gear.pcd", points, width, height);
+	FasterLoadFromPCD("/mnt/Input/Gear.pcd", points, width, height);
 
 	auto start = chrono::steady_clock::now();
 	vector<vector3> normals(points.size());
@@ -349,5 +349,5 @@ int main()
 		<< chrono::duration_cast<chrono::milliseconds>(end - start).count()
 		<< " ms" << endl;
 
-	FasterSaveToPCD("/mnt/GearWithNormals.pcd", points, normals, width, height, points.size());
+	FasterSaveToPCD("/mnt/Output/GearWithNormals.pcd", points, normals, width, height, points.size());
 }

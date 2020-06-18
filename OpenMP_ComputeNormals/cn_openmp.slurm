@@ -15,4 +15,4 @@ cd $SLURM_SUBMIT_DIR
 
 export OMP_NUM_THREADS=8
 
-srun singularity run --bind Output:/mnt container.sif
+srun singularity run --bind CAPRI_Input:/mnt/Input,CAPRI_Output:/mnt/Output container.sif
