@@ -207,8 +207,64 @@ void ParallelComputeNormals(vector<vector3>& points, vector<vector3>& normals, i
 #pragma omp parallel for
 	for (int row = 0; row < nRows; row++)
 	{
-		//cout << "Sono il thread: " << omp_get_thread_num() << endl;
+		for (int column = 0; column < nColumns; column++)
+		{
+			int idx = row * nColumns + column; //current index
+
+			int lbr = max(0, row - nNearCells);
+			int hbr = min(nRows, row + nNearCells);
+			int lbc = max(0, column - nNearCells);
+			int hbc = min(nColumns, column + nNearCells);
+
+			float bestDist[10];
+			vector3 bestPoints[10];
+			for (int i = 0; i < 10; i++)
+				bestDist[i] = 2e20f;
+
+			int found = 0;
+
+			for (int r = lbr; r < hbr; r++)
+			{
+				for (int c = lbc; c < hbc; c++)
+				{
+					// Considering neighbor only if valid and within max distance
+					int neighborIdx = r * nColumns + c;
+
+					float dist = vector3::distance(points[idx], points[neighborIdx]);
+					found++;
+					int i = 9;
+					while (i > 0 && dist < bestDist[i - 1])
+					{
+						bestDist[i] = bestDist[i - 1];
+						bestPoints[i] = bestPoints[i - 1];
+						i--;
+					}
+					if (i < 9)
+					{
+						bestDist[i] = dist;
+						bestPoints[i] = points[neighborIdx];
+					}
+				}
+			}
+
+			// Compute normals using least squares estimation
+			vector3 normal = PlaneFit(bestPoints, min(found, 10));
+
+			// Re-orient normal correctly using user reference normals direction
+			if (vector3::dot(normal, refDirection) > 0.0f)
+				normals[idx] = normal;
+			else
+				normals[idx] = normal * -1; //flip normal
+		}
+	}
+}
+
+void ParallelComputeNormals2(vector<vector3>& points, vector<vector3>& normals, int nRows, int nColumns, int nNearCells, vector3& refDirection)
+{
 #pragma omp parallel for
+	for (int row = 0; row < nRows; row++)
+	{
+	#pragma omp parallel for
 		for (int column = 0; column < nColumns; column++)
 		{
 			int idx = row * nColumns + column; //current index
@@ -337,7 +393,7 @@ int main()
 	ComputeNormals(points, normals, height, width, 3, refDirection);
 	auto end = chrono::steady_clock::now();
 
-	cout << "Elapsed time in milliseconds: "
+	cout << "Elapsed time in milliseconds (serial): "
 		<< chrono::duration_cast<chrono::milliseconds>(end - start).count()
 		<< " ms" << endl;
 
@@ -345,7 +401,15 @@ int main()
 	ParallelComputeNormals(points, normals, height, width, 3, refDirection);
 	end = chrono::steady_clock::now();
 
-	cout << "Elapsed time in milliseconds (parallel): "
+	cout << "Elapsed time in milliseconds (OpenMP - only external for parallel): "
+		<< chrono::duration_cast<chrono::milliseconds>(end - start).count()
+		<< " ms" << endl;
+
+	start = chrono::steady_clock::now();
+	ParallelComputeNormals2(points, normals, height, width, 3, refDirection);
+	end = chrono::steady_clock::now();
+
+    cout << "Elapsed time in milliseconds (OpenMP - both for parallel): "
 		<< chrono::duration_cast<chrono::milliseconds>(end - start).count()
 		<< " ms" << endl;
 
