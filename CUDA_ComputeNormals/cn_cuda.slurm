@@ -7,7 +7,7 @@
 #SBATCH --mail-type END,FAIL
 #SBATCH --partition allgroups
 #SBATCH --ntasks 1
-#SBATCH --mem 1G
+#SBATCH --mem 200M
 #SBATCH --time 4:00
 #SBATCH --gres=gpu:1
 
