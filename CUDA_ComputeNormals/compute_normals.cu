@@ -140,10 +140,9 @@ int main()
 
 	if (infile == NULL) {
 		cerr << "Failed to load file!" << endl;
-		return;
+		return 0;
 	}
 
-	char line[100];
 	for (int i = 0; i < 6; i++)
 		fscanf(infile, "%*[^\n]\n");
 
@@ -204,7 +203,7 @@ int main()
 		<< chrono::duration_cast<chrono::milliseconds>(end - start).count()
 		<< " ms" << endl;
 
-	filename = "/mnt/Output/GearWithNormals.pcd"
+	filename = "/mnt/Output/GearWithNormals.pcd";
 
 #pragma region Save to file
 

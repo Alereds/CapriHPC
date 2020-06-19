@@ -8,10 +8,9 @@
 #SBATCH --partition allgroups
 #SBATCH --ntasks 1
 #SBATCH --mem 1G
-#SBATCH --time 00:02:00
-# requesting 1 GPU; 
+#SBATCH --time 4:00
 #SBATCH --gres=gpu:1
 
 cd $SLURM_SUBMIT_DIR
 
-srun singularity run --bind ../CAPRI_Input:/mnt/Input,../CAPRI_Output:/mnt/Output cu_cuda_container.sif
+srun singularity exec --nv --bind .:/mnt,../CAPRI_Input:/mnt/Input,../CAPRI_Output:/mnt/Output  nvidia_pycuda_orig.sif /mnt/compute_normals.o

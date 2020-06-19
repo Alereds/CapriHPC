@@ -1,13 +1,15 @@
 Bootstrap: docker
-From: nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
+From: nvidia/cuda
 
 %post
 apt-get update
-apt-get install -y gcc g++ git nvidia-cuda-toolkit
+apt-get install -y gcc g++ git
+
 export CUDA_HOME=/usr/local/cuda
 export CPATH=$CPATH:${CUDA_HOME}/include
-export LIBRARY_PATH=$LIBRARY_PATH:${CUDA_HOME}/lib64
+export LIBRARY_PATH=$LIBRARY_PATH:${CUDA_HOME}/lib64	
 ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/libcuda.so
+
 mkdir ${SINGULARITY_ROOTFS}/MyRoot
 cd ${SINGULARITY_ROOTFS}/MyRoot
 git clone https://github.com/Alereds/CapriHPC.git
