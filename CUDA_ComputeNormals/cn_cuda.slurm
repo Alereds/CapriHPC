@@ -13,4 +13,4 @@
 
 cd $SLURM_SUBMIT_DIR
 
-srun singularity exec --nv --bind .:/mnt,../CAPRI_Input:/mnt/Input,../CAPRI_Output:/mnt/Output  nvidia_pycuda_orig.sif /mnt/compute_normals.o
+srun singularity exec --nv --bind .:/mnt/source,../CAPRI_Input:/mnt/Input,../CAPRI_Output:/mnt/Output  nvidia_pycuda_orig.sif /mnt/source/compute_normals.o
